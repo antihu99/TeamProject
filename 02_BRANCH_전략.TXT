@@ -1,0 +1,33 @@
+## GIT 브랜치 구조
+
+main
+ └── SPEC                     ← 통합 브랜치 (main에서 생성)
+      ├── A_01_spec                  → PR → SPEC 머지 
+      ├── A_02_spec                 → PR → SPEC 머지 
+      ├── A_03_spec                 → PR → SPEC 머지 
+      ├── A_04_spec                 → PR → SPEC 머지 
+ └── RED                    ← 통합 브랜치 (main에서 생성)
+      ├── A_01_RED                 → PR → RED 머지 
+      ├── A_02_RED                 → PR → RED 머지 
+      ├── A_03_RED                 → PR → RED 머지 
+      ├── A_04_RED                 → PR → RED 머지 
+ └── GREEN                    ← 통합 브랜치 (main에서 생성)
+      ├── A_01_GREEN               → PR → GREEN 머지 
+      ├── A_02_GREEN               → PR → GREEN 머지 
+      ├── A_03_GREEN               → PR → GREEN 머지 
+      ├── A_04_GREEN               → PR → GREEN 머지 
+ └── REFACTORING              ← 통합 브랜치 (main에서 생성)
+      ├── A_01_REFACTORING         → PR → REFACTORING 머지 
+      ├── A_02_REFACTORING         → PR → REFACTORING 머지 
+      ├── A_03_REFACTORING         → PR → REFACTORING 머지 
+      ├── A_04_REFACTORING         → PR → REFACTORING 머지 
+ └── NEW_FEATURE              ← 통합 브랜치 (main에서 생성)
+      ├── A_01_NEW_FEATURE         → PR → NEW_FEATURE 머지 
+      ├── A_02_NEW_FEATURE         → PR → NEW_FEATURE 머지 
+      ├── A_03_NEW_FEATURE         → PR → NEW_FEATURE 머지 
+      ├── A_04_NEW_FEATURE         → PR → NEW_FEATURE 머지 
+ └── QA                       ← 통합 브랜치 (main에서 생성)
+      ├── A_01_QA                  → PR → QA 머지 
+      ├── A_02_QA                  → PR → QA 머지 
+      ├── A_03_QA                  → PR → QA 머지 
+      ├── A_04_QA                  → PR → QA 머지 
