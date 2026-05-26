@@ -1,7 +1,7 @@
-# RED Analysis Conversation
+# RED 단계 대화 기록
 
 ## 개요
-본 문서는 `RED` 단계에서 수행한 테스트 구조 분석, 소스 기반 테스트 공백 식별, RED 전략 문서 작성, 결과 보고서 및 프롬프트 저장 작업에 대한 주요 대화 흐름을 정리한 기록이다.
+본 문서는 `RED` 단계에서 수행한 테스트 구조 분석, 소스 기반 테스트 공백 식별, RED 전략 문서 작성, 한글 문서 정리, RED 테스트 계획 문서 작성, 결과 보고서 및 프롬프트 저장 작업에 대한 주요 대화 흐름을 정리한 기록이다.
 
 ## 대화 기록
 ### 1. RED 브랜치 준비 및 동기화
@@ -32,44 +32,87 @@
 
 ### 4. RED 분석 시각화 및 문서화
 **User**
-- 별도 추가 지시 없이 RED 분석 결과를 확인
+- RED 분석 결과를 문서로도 남겨달라고 요청
 
 **Agent**
 - 채팅 옆에서 열어볼 수 있는 분석 캔버스 `canvases/red-test-review.canvas.tsx` 생성
 - RED 분석 내용을 저장용 문서로 남기기 위해 `DOCS/08_red_test_strategy.md` 작성
 - `DOCS/05_README.md`에 새 RED 전략 문서를 허브와 읽기 순서에 반영
+- `report/02_red_analysis_report.md`, `prompting/02_red_analysis_conversation.md`, `prompting/User_prompt.md`를 작성해 결과 보고와 프롬프트 이력을 저장
 
-### 5. 커밋 및 푸시
+### 5. RED 산출물 한글화
 **User**
-- 정리된 `DOCS` 수정분을 커밋하고 `origin/RED`에 푸시해달라고 요청
+- `DOCS` 폴더의 영어 문서를 한글로 번역해 `_KR` 파일명으로 만들어달라고 요청
+- 앞으로 결과 파일은 한글로 만들어달라고 요청
 
 **Agent**
-- `#4_AlignDocsWithCurrentSource` 커밋 생성
-- `origin/RED`로 푸시 완료
+- `DOCS` 핵심 문서를 `_KR` 사본으로 번역
+- `DOCS/05_README_KR.md`에서 한글 문서 간 내부 링크와 읽기 순서를 정리
+- RED 단계 이후 문서 허브를 한글 기준으로 사용할 수 있도록 정리
 
-### 6. RED 결과 보고서와 프롬프트 저장
+### 6. 커밋 및 푸시
 **User**
-- 결과 보고서와 프롬프트도 저장해달라고 요청
+- 정리된 RED 문서 수정분을 커밋하고 `origin/RED`에 푸시해달라고 요청
 
 **Agent**
-- `report/02_red_analysis_report.md` 작성
-- `prompting/02_red_analysis_conversation.md` 작성
-- `prompting/User_prompt.md`에 이번 RED 관련 사용자 요청을 반영
+- `#4_AlignDocsWithCurrentSource` 커밋 생성 및 푸시
+- `#5_AddRedDocsAndKoreanCopies` 커밋 생성 및 푸시
 
-## 이번 작업에서 생성한 산출물
+### 7. RED 테스트 계획 문서 작성
+**User**
+- RED 단계의 테스트 계획 문서를 작성해달라고 요청
+
+**Agent**
+- `DOCS/09_red_test_plan_KR.md`를 작성
+- 목표, 범위, 테스트 전략, 우선순위, 파일 계획, 브랜치 분담, 실행 순서, 산출물, 완료 기준, 리스크를 한국어로 정리
+- `DOCS/05_README_KR.md`에 해당 문서를 반영
+
+### 8. 문서 재생성 및 최종 반영
+**User**
+- `09_red_test_plan_KR.md`가 보이지 않으니 다시 만들어달라고 요청
+- 이후 해당 파일을 포함해 다시 커밋하고 푸시해달라고 요청
+
+**Agent**
+- `DOCS/09_red_test_plan_KR.md`를 재생성하고 존재 여부를 확인
+- `DOCS/05_README_KR.md`와 함께 `#6_AddRedTestPlanDoc` 커밋 생성
+- `origin/RED`로 푸시하고 동기화 상태를 확인
+
+### 9. 결과 보고서와 프롬프트 기록 최신화
+**User**
+- RED 브랜치 단계에서 만들어진 결과 보고서와 프롬프트 파일을 업데이트해달라고 요청
+
+**Agent**
+- `report/02_red_analysis_report.md`에 RED 후속 산출물과 커밋 이력을 반영
+- `prompting/02_red_analysis_conversation.md`에 한글화, 테스트 계획, 재생성, 마지막 푸시 흐름을 반영
+- `prompting/User_prompt.md`에도 최신 사용자 요청을 추가 반영
+
+## 이번 작업에서 생성 및 갱신한 산출물
 ### DOCS
 - `DOCS/08_red_test_strategy.md`
+- `DOCS/00_PRD_KR.md`
+- `DOCS/01_epic_KR.md`
+- `DOCS/02_requirements_traceability_KR.md`
+- `DOCS/03_gherkin_KR.md`
+- `DOCS/04_todo_KR.md`
+- `DOCS/05_README_KR.md`
+- `DOCS/06_spec_gap_log_KR.md`
+- `DOCS/07_red_test_inventory_KR.md`
+- `DOCS/08_red_test_strategy_KR.md`
+- `DOCS/09_red_test_plan_KR.md`
 
 ### REPORT
 - `report/02_red_analysis_report.md`
 
 ### PROMPTING
 - `prompting/02_red_analysis_conversation.md`
+- `prompting/User_prompt.md`
 
 ### CANVAS
 - `C:\Users\user\.cursor\projects\d-Vs-workplace-Java-project-TeamProject-01\canvases\red-test-review.canvas.tsx`
 
 ## 요약
-이번 대화에서는 RED 단계의 목표에 맞춰 현재 테스트 자산을 실제 소스 기준으로 다시 읽고, 요구사항과 구현 사이의 테스트 공백을 우선순위 중심으로 재정리했다.
+이번 대화 흐름에서는 RED 단계의 목표에 맞춰 현재 테스트 자산을 실제 소스 기준으로 다시 읽고, 요구사항과 구현 사이의 테스트 공백을 우선순위 중심으로 재정리했다.
 
-핵심 결론은 현재 테스트 수는 충분해 보이지만, malformed command, phone partial-field integration, command-level `MOD`, OR duplicate suppression, scale 검증은 아직 RED에서 먼저 실패로 드러내야 할 핵심 공백이라는 점이다.
+이후 분석 내용을 전략 문서, 한글 문서 세트, RED 테스트 계획 문서, 결과 보고서, 프롬프트 기록으로 확장했고, 누락되었던 계획 문서를 재생성해 최종적으로 `RED` 브랜치에 반영했다.
+
+핵심 결론은 현재 테스트 수는 적지 않지만, malformed command, phone partial-field integration, command-level `MOD`, OR duplicate suppression, scale 검증은 아직 RED에서 먼저 실패로 드러내야 할 핵심 공백이라는 점이며, 이를 문서와 브랜치 계획까지 연결해 다음 단계의 기준을 고정했다.
