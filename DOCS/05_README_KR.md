@@ -156,6 +156,9 @@
 - [`08_red_test_strategy_KR.md`](./08_red_test_strategy_KR.md)
   - 현재 RED 단계 테스트 상태, 공백, 실패 테스트 전략, 우선순위 파일 정리
 
+- [`09_red_test_plan_KR.md`](./09_red_test_plan_KR.md)
+  - RED 단계의 실행 순서, 테스트 파일 계획, 브랜치 분담, 산출물 기준을 담은 테스트 계획서
+
 ## 8. 권장 읽기 순서
 새 팀원이 들어왔을 때 권장 읽기 순서는 다음과 같다.
 
@@ -167,6 +170,7 @@
 6. [`06_spec_gap_log_KR.md`](./06_spec_gap_log_KR.md)로 RED 전 계약 공백을 확인한다.
 7. [`07_red_test_inventory_KR.md`](./07_red_test_inventory_KR.md)로 RED 테스트 소유권과 순서를 정한다.
 8. [`08_red_test_strategy_KR.md`](./08_red_test_strategy_KR.md)로 현재 테스트 트리와 RED 우선순위를 이해한다.
+9. [`09_red_test_plan_KR.md`](./09_red_test_plan_KR.md)로 실제 작성 순서와 산출물 계획을 확인한다.
 
 ## 9. 단계별 문서 활용 방법
 ### SPEC
@@ -192,6 +196,7 @@
 - `06_spec_gap_log_KR.md`
 - `07_red_test_inventory_KR.md`
 - `08_red_test_strategy_KR.md`
+- `09_red_test_plan_KR.md`
 
 목적:
 - 요구사항에서 실패 테스트 도출
@@ -199,6 +204,7 @@
 - 테스트 작업 분담
 - SPEC의 미해결 공백을 잘못 잠그지 않도록 방지
 - 실제 현재 소스/테스트 트리에 맞춰 RED 우선순위 정렬
+- 테스트 작성 순서와 산출물 기준을 실행 계획으로 확정
 
 ### GREEN
 사용 문서:
