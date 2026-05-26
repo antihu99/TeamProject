@@ -32,7 +32,15 @@ public class DeleteCommand extends Command {
 
         int fieldIndex = SecondaryOptionEnum.getFieldIndexFromOption(firstOptionParser, fieldCondition);
 
-        List<Employee> employeeList = employeeStore.delete(fieldCondition, firstConditionPair.second, fieldIndex);
+        List<Employee> employeeList;
+        if (fieldIndex == 0) {
+            employeeList = employeeStore.delete(fieldCondition, firstConditionPair.second);
+            if (employeeList == null || employeeList.isEmpty()) {
+                employeeList = employeeStore.delete(fieldCondition, firstConditionPair.second, fieldIndex);
+            }
+        } else {
+            employeeList = employeeStore.delete(fieldCondition, firstConditionPair.second, fieldIndex);
+        }
 
         if (firstOptionParser.getPrimaryOption() == PrimaryOptionEnum.PRINT) {
             return ResultStringFormatter.getEmployeeListToFormattedString(

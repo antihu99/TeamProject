@@ -31,7 +31,15 @@ public class SearchCommand extends Command {
         int fieldIndex = SecondaryOptionEnum.getFieldIndexFromOption(firstOptionParser, fieldCondition);
 
         TertiaryOptionEnum tertiaryOptionEnum = firstOptionParser.getTertiaryOption();
-        List<Employee> employeeList = employeeStore.search(fieldCondition, firstConditionPair.second, tertiaryOptionEnum, fieldIndex);
+        List<Employee> employeeList;
+        if (fieldIndex == 0) {
+            employeeList = employeeStore.search(fieldCondition, firstConditionPair.second, tertiaryOptionEnum);
+            if (employeeList == null || employeeList.isEmpty()) {
+                employeeList = employeeStore.search(fieldCondition, firstConditionPair.second, tertiaryOptionEnum, fieldIndex);
+            }
+        } else {
+            employeeList = employeeStore.search(fieldCondition, firstConditionPair.second, tertiaryOptionEnum, fieldIndex);
+        }
 
         if (firstOptionParser.getPrimaryOption() == PrimaryOptionEnum.PRINT) {
             return ResultStringFormatter.getEmployeeListToFormattedString(

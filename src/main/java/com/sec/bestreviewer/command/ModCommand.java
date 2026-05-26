@@ -36,7 +36,15 @@ public class ModCommand extends Command {
 
         int fieldIndex = SecondaryOptionEnum.getFieldIndexFromOption(firstOptionParser, fieldCondition);
 
-        List<Employee> employeeList = employeeStore.modify(fieldCondition,  firstConditionPair.second, fieldModifyCondition, conditionModifyPair.second, fieldIndex);
+        List<Employee> employeeList;
+        if (fieldIndex == 0) {
+            employeeList = employeeStore.modify(fieldCondition, firstConditionPair.second, fieldModifyCondition, conditionModifyPair.second);
+            if (employeeList == null || employeeList.isEmpty()) {
+                employeeList = employeeStore.modify(fieldCondition, firstConditionPair.second, fieldModifyCondition, conditionModifyPair.second, fieldIndex);
+            }
+        } else {
+            employeeList = employeeStore.modify(fieldCondition, firstConditionPair.second, fieldModifyCondition, conditionModifyPair.second, fieldIndex);
+        }
 
         if (firstOptionParser.getPrimaryOption() == PrimaryOptionEnum.PRINT) {
             return ResultStringFormatter.getEmployeeListToFormattedString(

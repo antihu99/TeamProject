@@ -23,6 +23,6 @@ public enum CombinationEnum {
                 return combinationEnum;
             }
         }
-        return NONE;
+        throw new IllegalArgumentException("Invalid combination name: " + combination);
     }
 }
