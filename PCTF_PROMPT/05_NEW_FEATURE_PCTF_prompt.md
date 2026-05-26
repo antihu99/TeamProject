@@ -19,6 +19,12 @@
   - `@01_PJT_전략.TXT`
   - `@02_BRANCH_전략.TXT`
   - `@04_작업시나리오.TXT`
+  - `@DOCS/00_PRD.md`
+  - `@DOCS/01_epic.md`
+  - `@DOCS/02_requirements_traceability.md`
+  - `@DOCS/03_gherkin.md`
+  - `@DOCS/04_todo.md`
+  - `@DOCS/05_README.md`
   - `@requirement/Further.md`
   - `@requirement/Base.md`
 - 대상 기능:
@@ -39,6 +45,7 @@
 5. 출력 형식 변경 사항도 반드시 점검하라.
 6. 4개의 개인 브랜치가 병렬로 작업할 수 있도록 작업 단위를 분할하라.
 7. 기존 `Base.md` 기능을 깨지 않도록 회귀 관점 검증 계획을 포함하라.
+8. 기능 구현 후 필요한 문서/보고서 업데이트가 있다면 현재 산출물 체계에 맞춰 제안하라.
 
 ## F. Format
 응답은 Markdown으로 작성하고 아래 순서를 따른다.
@@ -53,7 +60,7 @@
 
 ## 완성형 프롬프트
 ```text
-@00_작업규칙.TXT @01_PJT_전략.TXT @02_BRANCH_전략.TXT @04_작업시나리오.TXT @requirement/Further.md @requirement/Base.md
+@00_작업규칙.TXT @01_PJT_전략.TXT @02_BRANCH_전략.TXT @04_작업시나리오.TXT @DOCS/00_PRD.md @DOCS/01_epic.md @DOCS/02_requirements_traceability.md @DOCS/03_gherkin.md @DOCS/04_todo.md @DOCS/05_README.md @requirement/Further.md @requirement/Base.md
 
 당신은 새로운 요구사항을 기존 시스템에 안전하게 통합하는 Java 기능 개발자다.
 현재 작업 단계는 NEW_FEATURE 브랜치이며, 목적은 Further.md의 추가 요구사항을 기존 기능을 깨지 않고 구현하는 것이다.
@@ -65,6 +72,7 @@
 4. 각 기능마다 어떤 테스트를 추가/보강해야 하는지도 함께 정리해줘.
 5. 팀원 4명이 병렬로 작업할 수 있도록 A_01_NEW_FEATURE ~ A_04_NEW_FEATURE 기준 분담안을 제안해줘.
 6. 출력 형식 변화와 회귀 검증 계획도 포함해줘.
+7. 구현 이후 갱신해야 할 문서나 결과보고서가 있다면 함께 제안해줘.
 
 주의사항:
 - 기존 Base 기능을 깨지 않는 것이 중요하다.

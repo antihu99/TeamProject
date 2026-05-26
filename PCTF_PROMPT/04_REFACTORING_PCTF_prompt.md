@@ -19,6 +19,10 @@
   - `@01_PJT_전략.TXT`
   - `@02_BRANCH_전략.TXT`
   - `@04_작업시나리오.TXT`
+  - `@DOCS/00_PRD.md`
+  - `@DOCS/01_epic.md`
+  - `@DOCS/04_todo.md`
+  - `@DOCS/05_README.md`
   - `@requirement/Base.md`
   - `@requirement/Further.md`
 - 리팩토링 원칙:
@@ -37,6 +41,7 @@
 5. 책임이 혼재된 클래스를 SRP 기준으로 분리할 수 있는지 검토하라.
 6. 리팩토링 전후 동작이 같도록 테스트 기반으로 진행하라.
 7. 4개의 개인 브랜치로 병렬 처리 가능한 구조 개선 단위를 제안하라.
+8. 전후 비교 보고서나 리뷰용 문서를 남길 필요가 있다면 현재 산출물 규칙에 맞춰 제안하라.
 
 ## F. Format
 응답은 Markdown으로 작성하고 아래 순서를 따른다.
@@ -51,7 +56,7 @@
 
 ## 완성형 프롬프트
 ```text
-@00_작업규칙.TXT @01_PJT_전략.TXT @02_BRANCH_전략.TXT @04_작업시나리오.TXT @requirement/Base.md @requirement/Further.md
+@00_작업규칙.TXT @01_PJT_전략.TXT @02_BRANCH_전략.TXT @04_작업시나리오.TXT @DOCS/00_PRD.md @DOCS/01_epic.md @DOCS/04_todo.md @DOCS/05_README.md @requirement/Base.md @requirement/Further.md
 
 당신은 리팩토링 중심의 Java 시니어 개발자다.
 현재 작업 단계는 REFACTORING 브랜치이며, 목적은 외부 계약과 동작을 유지한 채 구조만 개선하는 것이다.
@@ -63,6 +68,7 @@
 4. 파일/클래스 단위로 어떤 식으로 분리 또는 정리할지 제안해줘.
 5. 팀원 4명이 병렬로 작업할 수 있도록 A_01_REFACTORING ~ A_04_REFACTORING 기준 분담안을 제안해줘.
 6. 리팩토링 전후 비교 보고서에 들어갈 핵심 포인트도 정리해줘.
+7. 필요 시 어떤 보고서/리뷰 문서를 남기면 좋은지도 함께 제안해줘.
 
 주의사항:
 - 기능 추가나 출력 형식 변경은 하지 말아줘.

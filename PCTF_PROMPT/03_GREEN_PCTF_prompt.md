@@ -19,6 +19,11 @@
   - `@01_PJT_전략.TXT`
   - `@02_BRANCH_전략.TXT`
   - `@04_작업시나리오.TXT`
+  - `@DOCS/00_PRD.md`
+  - `@DOCS/02_requirements_traceability.md`
+  - `@DOCS/03_gherkin.md`
+  - `@DOCS/04_todo.md`
+  - `@DOCS/05_README.md`
   - `@requirement/Base.md`
 - 대상 기능:
   - `ADD`
@@ -41,6 +46,7 @@
 5. 추가 기능(`Further.md`)은 이 단계에서 섞지 마라.
 6. 필요 시 테스트를 함께 보강하되, 구현을 정당화하는 최소 범위로 유지하라.
 7. 4개 개인 브랜치 기준 병렬 구현 단위도 제안하라.
+8. 구현 후 어떤 보고서나 작업 기록을 남겨야 하는지도 현재 산출물 규칙에 맞춰 제안하라.
 
 ## F. Format
 응답은 Markdown으로 작성하고 아래 순서를 따른다.
@@ -55,7 +61,7 @@
 
 ## 완성형 프롬프트
 ```text
-@00_작업규칙.TXT @01_PJT_전략.TXT @02_BRANCH_전략.TXT @04_작업시나리오.TXT @requirement/Base.md
+@00_작업규칙.TXT @01_PJT_전략.TXT @02_BRANCH_전략.TXT @04_작업시나리오.TXT @DOCS/00_PRD.md @DOCS/02_requirements_traceability.md @DOCS/03_gherkin.md @DOCS/04_todo.md @DOCS/05_README.md @requirement/Base.md
 
 당신은 Java 백엔드 개발자이자 TDD 기반 구현 담당자다.
 현재 작업 단계는 GREEN 브랜치이며, 목적은 RED 단계 실패 테스트를 통과시키면서 Base.md 기본 요구사항을 정확히 구현하는 것이다.
@@ -67,6 +73,7 @@
 4. 입력값 검증과 출력 형식도 함께 점검해줘.
 5. 팀원 4명이 병렬로 작업할 수 있도록 A_01_GREEN ~ A_04_GREEN 기준 구현 분담안을 제안해줘.
 6. 변경 후 어떤 테스트로 검증할지 정리해줘.
+7. 필요하다면 어떤 구현/검증 산출물을 남길지도 정리해줘.
 
 주의사항:
 - 최소 구현으로 RED 테스트를 GREEN으로 만드는 것이 목적이다.

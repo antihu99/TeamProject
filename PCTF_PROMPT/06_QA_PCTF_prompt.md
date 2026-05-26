@@ -19,6 +19,12 @@
   - `@01_PJT_전략.TXT`
   - `@02_BRANCH_전략.TXT`
   - `@04_작업시나리오.TXT`
+  - `@DOCS/00_PRD.md`
+  - `@DOCS/01_epic.md`
+  - `@DOCS/02_requirements_traceability.md`
+  - `@DOCS/03_gherkin.md`
+  - `@DOCS/04_todo.md`
+  - `@DOCS/05_README.md`
   - `@requirement/Base.md`
   - `@requirement/Further.md`
 - 검증 대상:
@@ -39,6 +45,7 @@
 5. 리팩토링 전후 비교 포인트와 남은 리스크를 정리하라.
 6. 제출용 README, 보고서, 기록 문서가 준비되었는지 점검하라.
 7. 4개의 개인 브랜치로 QA 작업을 병렬 분할하는 방안을 제안하라.
+8. 결과를 남길 경우 `report`와 `prompting` 산출물 규칙에 맞는 문서 제안까지 포함하라.
 
 ## F. Format
 응답은 Markdown으로 작성하고 아래 순서를 따른다.
@@ -53,7 +60,7 @@
 
 ## 완성형 프롬프트
 ```text
-@00_작업규칙.TXT @01_PJT_전략.TXT @02_BRANCH_전략.TXT @04_작업시나리오.TXT @requirement/Base.md @requirement/Further.md
+@00_작업규칙.TXT @01_PJT_전략.TXT @02_BRANCH_전략.TXT @04_작업시나리오.TXT @DOCS/00_PRD.md @DOCS/01_epic.md @DOCS/02_requirements_traceability.md @DOCS/03_gherkin.md @DOCS/04_todo.md @DOCS/05_README.md @requirement/Base.md @requirement/Further.md
 
 당신은 QA 리드이자 최종 검증 담당 엔지니어다.
 현재 작업 단계는 QA 브랜치이며, 목적은 기능/테스트/문서/커버리지를 최종 점검하고 main 머지 전에 남은 리스크를 정리하는 것이다.
@@ -66,6 +73,7 @@
 5. 리팩토링 전후 비교 보고서에 들어갈 핵심 포인트를 정리해줘.
 6. 제출용 README, 보고서, 작업기록이 준비되었는지 점검 항목을 만들어줘.
 7. 팀원 4명이 병렬로 작업할 수 있도록 A_01_QA ~ A_04_QA 기준 분담안을 제안해줘.
+8. 필요하다면 어떤 QA 결과보고서와 prompting 기록을 남겨야 하는지도 제안해줘.
 
 주의사항:
 - QA 단계에서는 대규모 구조 변경보다 검증과 문서화가 우선이다.

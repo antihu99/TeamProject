@@ -19,6 +19,12 @@
   - `@01_PJT_전략.TXT`
   - `@02_BRANCH_전략.TXT`
   - `@04_작업시나리오.TXT`
+  - `@DOCS/00_PRD.md`
+  - `@DOCS/01_epic.md`
+  - `@DOCS/02_requirements_traceability.md`
+  - `@DOCS/03_gherkin.md`
+  - `@DOCS/04_todo.md`
+  - `@DOCS/05_README.md`
   - `@requirement/Base.md`
   - `@requirement/Further.md`
 - 핵심 기능:
@@ -36,6 +42,7 @@
 5. 이후 `RED` 단계에서 실패 테스트를 바로 작성할 수 있도록 테스트 대상 목록을 정리하라.
 6. 팀 분업이 가능하도록 4개 작업 단위로 쪼개서 제안하라.
 7. 이 단계에서는 production code를 변경하지 말고, 분석/설계/문서 산출물 중심으로 작업하라.
+8. 새 문서를 만들거나 수정할 경우 현재 `DOCS`, `report`, `prompting` 규칙과 번호 체계를 따르라.
 
 ## F. Format
 응답은 Markdown으로 작성하고 아래 순서를 반드시 따른다.
@@ -51,7 +58,7 @@
 
 ## 완성형 프롬프트
 ```text
-@00_작업규칙.TXT @01_PJT_전략.TXT @02_BRANCH_전략.TXT @04_작업시나리오.TXT @requirement/Base.md @requirement/Further.md
+@00_작업규칙.TXT @01_PJT_전략.TXT @02_BRANCH_전략.TXT @04_작업시나리오.TXT @DOCS/00_PRD.md @DOCS/01_epic.md @DOCS/02_requirements_traceability.md @DOCS/03_gherkin.md @DOCS/04_todo.md @DOCS/05_README.md @requirement/Base.md @requirement/Further.md
 
 당신은 Java 프로젝트의 요구사항 분석가이자 아키텍처 리뷰어다.
 현재 작업 단계는 SPEC 브랜치이며, 목적은 구현 전에 문제를 정확히 정의하고 이후 RED 단계에서 바로 실패 테스트를 작성할 수 있도록 분석 산출물을 만드는 것이다.
@@ -63,6 +70,7 @@
 4. 출력 규칙(NONE, 최대 5건, 정렬, 변경 전 출력 등)과 제약사항(입력값, 성능, 형식)을 정리해줘.
 5. 이후 RED 단계에서 바로 실패 테스트를 작성할 수 있도록 테스트 대상 목록과 우선순위를 정리해줘.
 6. 팀원 4명이 병렬 작업할 수 있도록 A_01_spec ~ A_04_spec 기준 분업안을 제안해줘.
+7. 새 문서를 만들거나 수정한다면 현재 DOCS 허브와 산출물 번호 체계에 맞춰 제안해줘.
 
 주의사항:
 - 이 단계에서는 production code를 수정하지 말고 분석/문서 산출물 중심으로 작업해줘.

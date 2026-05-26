@@ -19,6 +19,12 @@
   - `@01_PJT_전략.TXT`
   - `@02_BRANCH_전략.TXT`
   - `@04_작업시나리오.TXT`
+  - `@DOCS/00_PRD.md`
+  - `@DOCS/01_epic.md`
+  - `@DOCS/02_requirements_traceability.md`
+  - `@DOCS/03_gherkin.md`
+  - `@DOCS/04_todo.md`
+  - `@DOCS/05_README.md`
   - `@requirement/Base.md`
   - `@requirement/Further.md`
 - 품질 목표:
@@ -37,6 +43,7 @@
 5. 커버리지 90% 목표를 기준으로 우선순위를 제안하라.
 6. 4개의 개인 브랜치가 병렬 작업할 수 있도록 테스트 작업을 분할하라.
 7. 구현을 덮어쓰는 식의 임시 수정 대신, 먼저 실패를 드러내는 테스트를 우선하라.
+8. 테스트 산출물과 테스트 문서가 필요하다면 현재 `DOCS`, `report`, `prompting` 규칙에 맞춰 정리하라.
 
 ## F. Format
 응답은 Markdown으로 작성하고 아래 순서를 따른다.
@@ -50,7 +57,7 @@
 
 ## 완성형 프롬프트
 ```text
-@00_작업규칙.TXT @01_PJT_전략.TXT @02_BRANCH_전략.TXT @04_작업시나리오.TXT @requirement/Base.md @requirement/Further.md
+@00_작업규칙.TXT @01_PJT_전략.TXT @02_BRANCH_전략.TXT @04_작업시나리오.TXT @DOCS/00_PRD.md @DOCS/01_epic.md @DOCS/02_requirements_traceability.md @DOCS/03_gherkin.md @DOCS/04_todo.md @DOCS/05_README.md @requirement/Base.md @requirement/Further.md
 
 당신은 JUnit 5 기반 TDD 실무자이자 테스트 설계 전문가다.
 현재 작업 단계는 RED 브랜치이며, 목적은 실패 테스트를 먼저 작성해서 구현 범위를 고정하고 커버리지 90% 목표에 맞는 테스트 구조를 만드는 것이다.
@@ -62,6 +69,7 @@
 4. 클래스별 테스트와 명령어별 테스트를 구분해서 제안해줘.
 5. 팀원 4명이 병렬로 작업할 수 있도록 A_01_RED ~ A_04_RED 기준 테스트 분담안을 제안해줘.
 6. 커버리지 90% 목표를 기준으로 우선순위 높은 테스트부터 정리해줘.
+7. 필요 시 어떤 테스트 문서를 어느 폴더에 어떤 형식으로 남길지까지 함께 제안해줘.
 
 주의사항:
 - 구현을 맞추기 위한 임시 코드 수정이 아니라, 먼저 실패를 드러내는 테스트 작성을 우선해줘.
