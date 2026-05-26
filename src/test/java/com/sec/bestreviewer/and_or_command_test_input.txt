@@ -1,0 +1,39 @@
+ADD, , , ,90000000,BCKKUQ XRX,CL1,010-8960-6497,19860402,PRO
+ADD, , , ,90000001,EUGOLQ ZAH,CL3,010-6047-7840,20061016,EX
+ADD, , , ,90000002,HGJNXN HXL,CL3,010-2605-3099,20090610,ADV
+ADD, , , ,90000003,VKPDWN XBT,CL3,010-8989-6961,20140109,PRO
+ADD, , , ,90000004,GQFQDQ JZA,CL1,010-1115-9509,19801221,PRO
+ADD, , , ,90000005,JXOMBK GEL,CL1,010-3169-2524,19821105,ADV
+ADD, , , ,90000006,SDUGME ALQ,CL2,010-9002-4955,19760711,EX
+ADD, , , ,90000000,ABC DEF,CL1,010-8960-6497,19860402,PRO
+ADD, , , ,90000001,GHI JKL,CL1,010-8960-6498,19860403,PRO
+SCH,-p,-m,-s,birthday,10
+SCH, ,-m,-s,birthday,10
+
+SCH,-p,-l,-g,name,EFG
+SCH, ,-l,-g,name,EFG
+SCH,-p,-l,-se,name,EFG
+SCH, ,-l,-se,name,EFG
+
+SCH,-p,-l,-g,phoneNum,6961
+SCH, ,-l,-g,phoneNum,6961
+
+SCH,-p,-l,-s,phoneNum,6961
+SCH, ,-l,-s,phoneNum,6961
+
+SCH,-p,-m,-g,birthday,10
+SCH, ,-m,-g,birthday,10
+SCH,-p,-m,-ge,birthday,10
+SCH, ,-m,-ge,birthday,10
+SCH,-p,-l,-g,phoneNum,6961
+SCH, ,-l,-g,phoneNum,6961
+
+SCH,-p,-m, ,phoneNum,8960,-o,-d, ,birthday,02
+SCH, ,-m, ,phoneNum,8960,-o,-d, ,birthday,02
+SCH,-p,-m, ,phoneNum,8960,-a,-d, ,birthday,02
+SCH, ,-m, ,phoneNum,8960,-a,-d, ,birthday,02
+MOD,-p,-d, ,birthday,16,-o, , ,certi,ADV,birthday,19901225
+SCH, , , ,birthday,19901225
+SCH,-p, , ,birthday,19901225
+DEL, ,-l, ,phoneNum,3099,-o,-y, ,birthday,1982
+SCH,-p,-m,-g,birthday,09
