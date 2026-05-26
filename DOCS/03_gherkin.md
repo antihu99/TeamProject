@@ -9,6 +9,10 @@
   - `DOCS/02_requirements_traceability.md`
   - `requirement/Base.md`
   - `requirement/Further.md`
+- Source-guided references:
+  - `src/main/java/com/sec/bestreviewer/EmployeeManagement.java`
+  - `src/main/java/com/sec/bestreviewer/CommandFactory.java`
+  - `src/main/java/com/sec/bestreviewer/util/ResultStringFormatter.java`
 
 ## 2. Purpose
 This document translates the product requirements into executable business scenarios written in Gherkin style.
@@ -45,6 +49,11 @@ Feature: Input and output file execution
     Then the program should read the input file line by line
     And the program should write execution results to the output file
 
+  Scenario: Write invalid command lines back to the output
+    Given an input file containing a command line that reaches an invalid-command path
+    When the program is executed with input and output file arguments
+    Then the output should contain "wrong command : <original line>"
+
 
 Feature: Add employee records
   As an operator
@@ -53,7 +62,7 @@ Feature: Add employee records
 
   Scenario: Add a valid employee record
     Given an empty employee database
-    When the command "ADD, , , ,14000301,YUJIN KIM,CL2,010-0977-0000,19981206" is executed
+    When the command "ADD, , , ,14000301,YUJIN KIM,CL2,010-0977-0000,19981206,ADV" is executed
     Then the employee record should be stored in the database
 
   Scenario: Add employee records with duplicated non-key values
@@ -148,7 +157,7 @@ Feature: Modify employee records
   Scenario: Reject modification of employee number
     Given an existing employee record
     When a MOD command tries to update "employeeNum"
-    Then the update should not be applied
+    Then the output should contain "wrong command : <original line>"
 
 
 Feature: Certification field support
@@ -156,10 +165,11 @@ Feature: Certification field support
   I want the system to support the certi field
   So that extended employee information can be stored and displayed
 
-  Scenario: Search output includes certi in final record shape
+  Scenario: Printed command output includes certi in final record shape
     Given employee records containing certi values
     When the command "SCH,-p, , ,birthday,19810408" is executed
     Then printed records should include the certi field
+    And the same printed row shape should apply to DEL and MOD outputs
 
 
 Feature: Secondary field options

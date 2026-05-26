@@ -9,6 +9,9 @@
   - `DOCS/01_epic.md`
   - `DOCS/02_requirements_traceability.md`
   - `DOCS/03_gherkin.md`
+- Source-guided references:
+  - `src/main/java/com/sec/bestreviewer`
+  - `src/test/java/com/sec/bestreviewer`
 
 ## 2. Purpose
 This document restructures the project TODO list into an execution-ready plan aligned with:
@@ -24,6 +27,11 @@ This document restructures the project TODO list into an execution-ready plan al
 - Small commits are recommended.
 - Review quality matters from the perspectives of Clean Code, Refactoring, TDD, and Secure Coding.
 - The final submission should be prepared through a release-oriented branch flow.
+
+### Current Source Snapshot
+- Current source already includes `MOD`, `certi`, name options, birthday options, comparison search, and `AND/OR` support.
+- Current test tree already contains active tests for field parsing/comparison, name-option behavior, birthday comparisons, modify store behavior, and command output basics.
+- The remaining meaningful RED gaps are malformed-command output, phone partial-field integration, invalid option-field compatibility, direct formatter regression, disabled end-to-end approval coverage, and 100,000-record validation.
 
 ## 4. Schedule-Aligned Delivery Plan
 ### Day 1
@@ -66,15 +74,30 @@ Lock the requirement interpretation and split the work safely before feature dev
 Turn requirements into failing tests and coverage targets.
 
 ### Todo
-- [ ] Review and improve the entire test suite for `certi` column support
-- [ ] Review and improve tests for changed `-p` output behavior
-- [ ] Implement failing tests for `MOD`
-- [ ] Implement failing tests for name options `-f`, `-l`
-- [ ] Implement failing tests for phone options `-m`, `-l`
-- [ ] Implement failing tests for birthday options `-y`, `-m`, `-d`
-- [ ] Implement failing tests for comparison options `-g`, `-ge`, `-s`, `-se`
-- [ ] Implement failing tests for `and/or` options
+- [ ] Add malformed-command output assertions for `EmployeeManagement` (`wrong command : <line>`)
+- [ ] Add parser -> command -> store integration tests for phone options `-m`, `-l`
+- [ ] Add explicit invalid option-field compatibility tests
+- [ ] Add direct formatter regression tests for `NONE`, max-5, and join-year ordering boundaries
+- [ ] Re-enable or replace disabled approval-style end-to-end tests
+- [ ] Add missing command-level `MOD` output assertions
+- [ ] Add explicit `OR` duplicate regression coverage
+- [ ] Define and add a 100,000-record validation strategy
 - [ ] Define a coverage improvement target toward 90%+
+
+### Current Test Assets Already In Repo
+- `EmployeeManagementTest`
+- `CommandParserTest`
+- `CommandExecutorTest`
+- `CommandModTest`
+- `AndOrParameterTest`
+- `store/EmployeeStoreImplNameTest`
+- `store/EmployeeStoreImplBirthdayTest`
+- `store/EmployeeStoreImplCareerLevelTest`
+- `store/EmployeeStoreImplModifyCommandTest`
+- `field/EmployeeNumberTest`
+- `field/CertiTest`
+- `field/BirthdayTest`
+- `field/PhoneNumberTest`
 
 ### README Mapping
 This stage directly supports:
@@ -128,25 +151,23 @@ This stage directly supports:
 
 ## Stage 5. NEW_FEATURE
 ### Goal
-Implement all extended requirements from `Further.md`.
+Align extended requirements from `Further.md` with the current source tree and close any remaining implementation gaps.
 
 ### Todo
-- [ ] Implement `certi` column support
-- [ ] Reflect `certi` in search and print output
-- [ ] Implement `MOD`
-- [ ] Implement name options `-f`, `-l`
-- [ ] Implement phone options `-m`, `-l`
-- [ ] Implement birthday options `-y`, `-m`, `-d`
-- [ ] Implement comparison options for `SCH`
-- [ ] Implement `and/or` condition support
-- [ ] Add or update tests together with each feature
+- [ ] Verify current `certi` implementation matches requirement and output contracts
+- [ ] Verify `MOD` command behavior matches current RED assertions
+- [ ] Close any remaining gaps in phone options `-m`, `-l`
+- [ ] Close any remaining gaps in birthday month/day option handling
+- [ ] Close any remaining gaps in comparison-search behavior
+- [ ] Close any remaining gaps in `and/or` behavior and deduplication
+- [ ] Add or update tests together with each behavior adjustment
 
 ### Recommended Order
-1. `certi` data model and output
-2. `MOD`
-3. name/phone/birthday secondary options
-4. comparison search
-5. `and/or` logic
+1. requirement-vs-source gap confirmation
+2. `certi` and printed row shape validation
+3. `MOD` and command-level output alignment
+4. phone/birthday option gap closure
+5. comparison and `and/or` logic gap closure
 
 
 ## Stage 6. QA
@@ -171,26 +192,26 @@ This stage directly supports:
 - communication and final presentation readiness
 
 ## 6. README Todo Mapping
-The following items are directly inherited and reorganized from `README.md`.
+The following items reinterpret the original `README.md` todo list against the current source tree.
 
 | README Todo Item | Planned Stage |
 | --- | --- |
 | certi column 추가에 따른 전체 TC 검토 및 보완 | `RED` |
-| certi column 추가 구현 | `NEW_FEATURE` |
+| certi column 구현 정합성 검증 및 잔여 gap 보완 | `NEW_FEATURE` |
 | -p 출력 옵션 변경에 대한 TC 검토 및 보완 | `RED` |
-| -p 옵션 변경 구현 | `GREEN` |
+| -p 출력 구현 회귀 보완 | `GREEN` |
 | MOD 기능 TC 구현 | `RED` |
-| MOD 기능 구현 | `NEW_FEATURE` |
+| MOD 기능 명령 레벨 gap 보완 | `NEW_FEATURE` |
 | 2옵션 이름, 성(-f, -l) TC 구현 | `RED` |
-| 2옵션 이름, 성(-f, -l) 기능 구현 | `NEW_FEATURE` |
+| 2옵션 이름, 성(-f, -l) 구현 정합성 검증 | `NEW_FEATURE` |
 | 2옵션 전화번호(-m, -l) TC 구현 | `RED` |
-| 2옵션 전화번호(-m, -l) 기능 구현 | `NEW_FEATURE` |
+| 2옵션 전화번호(-m, -l) gap 보완 | `NEW_FEATURE` |
 | 2옵션 생년월일(-y, -m, -d) TC 구현 | `RED` |
-| 2옵션 생년월일(-y, -m, -d) 기능 구현 | `NEW_FEATURE` |
+| 2옵션 생년월일(-y, -m, -d) gap 보완 | `NEW_FEATURE` |
 | 3옵션 부등호(SCH만 -g, -ge, -s, -se) TC 구현 | `RED` |
-| 3옵션 부등호(SCH만 -g, -ge, -s, -se) 기능 구현 | `NEW_FEATURE` |
+| 3옵션 부등호 구현 회귀 보완 | `NEW_FEATURE` |
 | and, or 연산 옵션 (2옵션, 3옵션) TC 구현 | `RED` |
-| and, or 연산 옵션 (2옵션, 3옵션) 기능 구현 | `NEW_FEATURE` |
+| and, or 연산 옵션 구현 회귀 보완 | `NEW_FEATURE` |
 | refactoring | `REFACTORING` |
 
 ## 7. Team Split Suggestion

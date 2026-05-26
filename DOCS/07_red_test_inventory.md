@@ -9,59 +9,72 @@
   - `DOCS/03_gherkin.md`
   - `DOCS/04_todo.md`
   - `DOCS/06_spec_gap_log.md`
+  - `requirement/Base.md`
+  - `requirement/Further.md`
+- Source-guided references:
+  - `src/main/java/com/sec/bestreviewer`
+  - `src/test/java/com/sec/bestreviewer`
 
 ## 2. Purpose
-This document converts the `SPEC` analysis into an execution-ready failing-test backlog.
+This document converts the current source tree and requirement analysis into an execution-ready RED backlog.
 
 The focus is to answer three questions before `RED` begins:
 1. Which contracts must be locked first?
-2. Which test layer should own each contract?
-3. How should the work be split across `A_01_RED ~ A_04_RED`?
+2. Which tests are already present in the tree?
+3. How should the remaining work be split across `A_01_RED ~ A_04_RED`?
 
-## 3. Priority View
-### P0: Must be written first
-- `MOD -p` pre-change output contract
-- `NONE` vs count output contract for `MOD`
-- real parser-path coverage for `phoneNum -m/-l`
-- real parser-path coverage for `birthday -m/-d`
-- `SCH -o` duplicate suppression
-- join-year ordering boundary around `90xxxxxx` vs `00xxxxxx`
-- invalid option-field pair rejection behavior
+## 3. Current Coverage Baseline
+### Already covered or largely covered
+- field parsing and comparison for `EmployeeNumber`, `Birthday`, `CareerLevel`, `Certi`, `Name`, `PhoneNumber`
+- `DEL` / `SCH` count output, print output, `NONE`, max-5, and sorted output through `CommandExecutorTest`
+- name option behavior through `EmployeeStoreImplNameTest`
+- birthday year comparison behavior through `EmployeeStoreImplBirthdayTest`
+- store-level `MOD` pre-change behavior through `EmployeeStoreImplModifyCommandTest`
+- basic command parsing through `CommandParserTest`
 
-### P1: Must follow immediately after P0
-- `certi` comparison behavior
-- `employeeNum` comparison behavior
-- `DEL` and `MOD` real-path option combinations
-- malformed command handling
-- `MOD` with `-a` / `-o`
+### Present but still incomplete
+- `MOD` command-level output coverage
+- `AND` / `OR` command integration coverage
+- birthday month/day option integration coverage
+- duplicate `employeeNum` add policy
+- active end-to-end approval coverage
 
-### P2: Hardening and regression coverage
-- `ADD` duplicate `employeeNum` policy
-- full field validation matrix
-- disabled approval-style scenarios replaced by active tests
-- scale fixture scaffolding for 100,000-record validation
+### Still meaningfully missing
+- malformed-command output assertions in `EmployeeManagement`
+- phone `-m/-l` parser -> command -> store integration tests
+- explicit invalid option-field compatibility tests
+- direct `ResultStringFormatter` regression tests
+- 100,000-record validation
 
-## 4. Inventory Table
-| Test ID | Priority | Req IDs | Scenario | Suggested layer | Target class/file | Recommended owner |
+## 4. Remaining RED Inventory
+| Test ID | Priority | Req IDs | Scenario | Current state | Suggested target class/file | Recommended owner |
 | --- | --- | --- | --- | --- | --- | --- |
-| RED-01 | P0 | F-05, F-07 | `MOD,-p` prints pre-change rows and includes final row shape with `certi` | command/integration | `CommandExecutorTest` or new `CommandModOutputTest` | `A_04_RED` |
-| RED-02 | P0 | F-01, F-02, F-05 | `MOD` without `-p` returns `MOD,<count>` and no match returns `MOD,NONE` | command/integration | new `CommandModOutputTest` | `A_04_RED` |
-| RED-03 | P0 | F-10, F-11 | `phoneNum,-m/-l` parsing and matching through real command lines | integration | new `EmployeeStoreImplPhoneNumberTest` | `A_01_RED` |
-| RED-04 | P0 | F-13, F-14 | `birthday,-m/-d` parsing and matching through real command lines | integration | extend `EmployeeStoreImplBirthdayTest` | `A_01_RED` |
-| RED-05 | P0 | F-19, F-20, F-23 | `SCH,-o` returns union without duplicates | integration | new `AndOrCommandIntegrationTest` | `A_04_RED` |
-| RED-06 | P0 | B-15, F-16 | join-year ordering boundary is deterministic across 1990s and 2000s | unit/formatter | `ResultStringFormatterTest` | `A_03_RED` |
-| RED-07 | P0 | B-08, OR-02..OR-05 | invalid option-field combinations are rejected consistently | parser/command | new `OptionValidationTest` | `A_01_RED` |
-| RED-08 | P1 | F-06, F-15, F-16 | `certi` comparison order for `-g/-ge/-s/-se` | integration | new `EmployeeStoreImplCertiTest` | `A_04_RED` |
-| RED-09 | P1 | B-03, F-15, F-16 | `employeeNum` comparison order follows join-year-first semantics | integration | new `EmployeeStoreImplEmployeeNumberTest` | `A_03_RED` |
-| RED-10 | P1 | F-21 | `DEL` with `-f/-l/-m/-y/-d` works through parser -> command -> store path | integration | extend `CommandExecutorTest` or new `DeleteCommandOptionTest` | `A_02_RED` |
-| RED-11 | P1 | F-22 | `MOD` with `-a/-o` uses two conditions and one target mutation correctly | integration | new `ModCommandAndOrTest` | `A_04_RED` |
-| RED-12 | P1 | B-08, B-13, F-03 | malformed command shape and bad option placement behavior | parser/end-to-end | `CommandParserTest`, `EmployeeManagementTest` | `A_01_RED` |
-| RED-13 | P2 | B-10 | duplicate `employeeNum` add behavior is explicitly tested | domain/command | `AddCommandTest` or new `AddCommandValidationTest` | `A_02_RED` |
-| RED-14 | P2 | B-03..B-07, F-06 | field validation matrix for all employee attributes | domain/unit | field tests under `field/` | `A_01_RED` |
-| RED-15 | P2 | B-21, B-14..B-19, F-05 | existing disabled approval-style scenarios are converted into active assertions | end-to-end | `EmployeeManagementTest` | `A_03_RED` |
-| RED-16 | P2 | B-20 | large-volume fixture and smoke assertion for 100,000 records | integration/performance | new `EmployeeManagementScaleTest` | `A_03_RED` |
+| RED-01 | P0 | B-08, B-21 | invalid command lines are written as `wrong command : <line>` | missing | `EmployeeManagementTest` | `A_01_RED` |
+| RED-02 | P0 | F-10, F-11 | `phoneNum,-m/-l` works through parser -> command -> store path | missing | new `EmployeeStoreImplPhoneNumberTest` | `A_01_RED` |
+| RED-03 | P0 | B-15, F-16 | formatter ordering boundary is correct for `90xxxxxx` vs `00xxxxxx` | missing direct test | new `ResultStringFormatterTest` | `A_03_RED` |
+| RED-04 | P0 | B-08, F-08..F-17 | invalid option-field combinations are rejected explicitly | missing | new `OptionValidationTest` | `A_01_RED` |
+| RED-05 | P0 | F-05, F-07 | command-level `MOD,-p` output includes pre-change row shape and `certi` | partially covered at store level | new `CommandModOutputTest` | `A_04_RED` |
+| RED-06 | P0 | F-19, F-20, F-23 | `SCH,-o` duplicate suppression stays stable | partially covered indirectly | new or extend `AndOrCommandIntegrationTest` | `A_04_RED` |
+| RED-07 | P1 | F-13, F-14 | `birthday,-m/-d` integration behavior is verified through real commands | partially covered | extend `EmployeeStoreImplBirthdayTest` | `A_01_RED` |
+| RED-08 | P1 | F-21 | `DEL` with secondary options works through parser -> command -> store path | partially covered | extend `CommandExecutorTest` or add `DeleteCommandOptionTest` | `A_02_RED` |
+| RED-09 | P1 | F-22 | `MOD` with `-a/-o` works through command-level integration | partially covered | new `ModCommandAndOrTest` | `A_04_RED` |
+| RED-10 | P1 | B-10 | duplicate `employeeNum` add behavior is locked by failing test | weakly covered | new `AddCommandValidationTest` | `A_02_RED` |
+| RED-11 | P2 | B-21, B-14..B-19 | disabled approval-style tests are replaced or re-enabled | disabled now | `EmployeeManagementTest` | `A_03_RED` |
+| RED-12 | P2 | B-20 | 100,000-record acceptance scenario exists | missing | new `EmployeeManagementScaleTest` | `A_03_RED` |
 
-## 5. Branch Split Suggestion
+## 5. Existing High-Value Test Files
+| File | What it already gives us |
+| --- | --- |
+| `src/test/java/com/sec/bestreviewer/CommandExecutorTest.java` | `DEL` / `SCH` output basics, `NONE`, max-5, sorting, add no-output behavior |
+| `src/test/java/com/sec/bestreviewer/CommandParserTest.java` | valid command parsing and basic `-a` parsing |
+| `src/test/java/com/sec/bestreviewer/EmployeeManagementTest.java` | argument validation and disabled end-to-end approval hooks |
+| `src/test/java/com/sec/bestreviewer/store/EmployeeStoreImplModifyCommandTest.java` | pre-change modify behavior and employee-number modification rejection |
+| `src/test/java/com/sec/bestreviewer/store/EmployeeStoreImplNameTest.java` | first/last-name filtering and comparison behavior |
+| `src/test/java/com/sec/bestreviewer/store/EmployeeStoreImplBirthdayTest.java` | birthday year comparisons and one `AND` case |
+| `src/test/java/com/sec/bestreviewer/field/EmployeeNumberTest.java` | employee-number comparison semantics |
+| `src/test/java/com/sec/bestreviewer/field/CertiTest.java` | certi ordering semantics |
+
+## 6. Branch Split Suggestion
 ### `A_01_RED`
 - parser validation
 - option compatibility
@@ -87,7 +100,7 @@ The focus is to answer three questions before `RED` begins:
 - `AND` / `OR`
 - advanced integration coverage
 
-## 6. Suggested Test File Plan
+## 7. Suggested Test File Plan
 | File | Purpose |
 | --- | --- |
 | `src/test/java/com/sec/bestreviewer/ResultStringFormatterTest.java` | sort, max-5, and count/`NONE` formatting |
@@ -98,8 +111,8 @@ The focus is to answer three questions before `RED` begins:
 | `src/test/java/com/sec/bestreviewer/store/EmployeeStoreImplCertiTest.java` | `certi` comparison behavior |
 | `src/test/java/com/sec/bestreviewer/store/EmployeeStoreImplEmployeeNumberTest.java` | `employeeNum` comparison and ordering semantics |
 
-## 7. RED Exit Criteria
+## 8. RED Exit Criteria
 - Every P0 test exists and fails for a requirement-based reason.
-- No failing test depends on guessed behavior from unresolved gaps in `DOCS/06_spec_gap_log.md`.
+- No failing test depends on guessed behavior that contradicts current source-guided contracts in `DOCS/06_spec_gap_log.md`.
 - Branch ownership is explicit for `A_01_RED ~ A_04_RED`.
 - The team can hand `RED` outputs directly to `GREEN` without reinterpreting the contract.

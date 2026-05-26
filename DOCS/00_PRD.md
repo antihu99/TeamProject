@@ -6,6 +6,11 @@
 - Source documents:
   - `requirement/Base.md`
   - `requirement/Further.md`
+- Source-guided implementation references:
+  - `src/main/java/com/sec/bestreviewer/EmployeeManagement.java`
+  - `src/main/java/com/sec/bestreviewer/CommandParser.java`
+  - `src/main/java/com/sec/bestreviewer/CommandFactory.java`
+  - `src/main/java/com/sec/bestreviewer/util/ResultStringFormatter.java`
 - Product type: Text-file based employee database management program
 
 ## 2. Product Summary
@@ -63,6 +68,16 @@ The product must:
 4. The program applies the command to the in-memory or storage-backed employee database.
 5. The program writes formatted results to the output file.
 
+Current implementation flow in `src/main/java`:
+
+1. `EmployeeManagement`
+2. `CommandReader`
+3. `CommandParser`
+4. `CommandFactory`
+5. `CommandExecutor`
+6. `EmployeeStoreImpl`
+7. `ResultStringFormatter`
+
 Execution format:
 
 ```text
@@ -87,16 +102,19 @@ The final employee record model must support the following fields.
 | `birthday` | `YYYYMMDD` | Birth date |
 | `certi` | `ADV`, `PRO`, `EX` | Certification level added in extended requirements |
 
+Current source note:
+- The current `Employee` constructor and `ADD` command path in `CommandFactory` already expect `certi` as part of the employee input payload.
+
 ## 9. Core Functional Requirements
 ### FR-01. Add Employee
 - Command: `ADD`
 - Format:
 
 ```text
-ADD,옵션1,옵션2,옵션3,사원번호,성명,경력개발단계,전화번호,생년월일
+ADD,옵션1,옵션2,옵션3,사원번호,성명,경력개발단계,전화번호,생년월일,certi
 ```
 
-- Final product data model must also support `certi`.
+- The current source implementation already requires `certi` in the `ADD` path.
 - A new employee record is added to the database.
 - `employeeNum` must identify the employee record format correctly.
 - Other fields may be duplicated, but all fields are non-null.
@@ -202,6 +220,8 @@ Notes:
   - `DEL,NONE`
   - `SCH,NONE`
   - `MOD,NONE`
+- When an input line reaches an `IllegalArgumentException` path during parse/build/execute in the current CLI implementation:
+  - `wrong command : <original line>`
 
 ### Count Output
 - When `-p` is not applied:
@@ -213,7 +233,13 @@ Notes:
 - At most 5 records are printed.
 - Records are sorted by employee number order interpreted by join-year priority.
 - `MOD` must print the record before modification.
-- After `certi` is introduced, printed record output must include the `certi` field.
+- In the current formatter implementation, printed `DEL`, `SCH`, and `MOD` rows include the `certi` field.
+
+### Current Source Notes
+- `EmployeeManagement` catches `IllegalArgumentException` and writes `wrong command : <line>` to the output file.
+- `CommandFactory` already builds `ADD` with `employeeNum,name,cl,phoneNum,birthday,certi`.
+- `ResultStringFormatter` appends `certi` to printed employee rows.
+- `CountCommand` / `CNT` exists in source and tests as an auxiliary command path, but it is not part of the original source requirement documents.
 
 ## 12. Command Contracts
 ### ADD Contract
@@ -225,10 +251,12 @@ Notes:
 
 ### SCH Contract
 - Finds all records matching the given condition.
+- In `OR` condition flows, current implementation behavior uses one deduplicated employee match set.
 
 ### MOD Contract
 - Updates all records matching the given condition.
 - Only one target column can be changed.
+- In the current CLI path, attempts to modify `employeeNum` are treated as invalid command flows.
 
 ## 13. Non-Functional Requirements
 ### NFR-01. Performance
@@ -274,6 +302,7 @@ Notes:
 ### Data Acceptance
 - Employee fields follow required formats.
 - Extended `certi` field is supported in the final product.
+- `ADD` accepts the `certi` field in the current implementation.
 
 ### Scale Acceptance
 - 100,000 record processing is supported.

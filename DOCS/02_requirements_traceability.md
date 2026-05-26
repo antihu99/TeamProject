@@ -8,6 +8,9 @@
   - `requirement/Further.md`
 - Related downstream document:
   - `DOCS/00_PRD.md`
+- Source-guided references:
+  - `src/main/java/com/sec/bestreviewer`
+  - `src/test/java/com/sec/bestreviewer`
 
 ## 2. Purpose
 This document connects source requirements to PRD sections and implementation/test focus areas so that no requirement is lost during design, coding, refactoring, or QA.
@@ -60,7 +63,23 @@ This document connects source requirements to PRD sections and implementation/te
 | F-22 | Further | `MOD` supports AND/OR condition forms | PRD 10 OR-06 | modify parser and condition composition |
 | F-23 | Further | `SCH` supports AND/OR condition forms | PRD 10 OR-06 | search parser and condition composition |
 
-## 4. Coverage View by Feature Group
+## 4. Current Implementation and Coverage Snapshot
+| Feature group | Key source classes | Current test evidence | Coverage status | Notes |
+| --- | --- | --- | --- | --- |
+| CLI execution and file IO | `EmployeeManagement`, `CommandReader`, `Printer` | `EmployeeManagementTest` | partially covered | argument handling exists; active malformed-command output assertions are missing |
+| Command parsing and dispatch | `CommandParser`, `TokenGroup`, `CommandFactory`, `CommandExecutor` | `CommandParserTest`, `CommandExecutorTest` | partially covered | valid path coverage exists; invalid option compatibility coverage is weak |
+| Base add/search/delete | `AddCommand`, `DeleteCommand`, `SearchCommand`, `EmployeeStoreImpl` | `AddCommandTest`, `CommandExecutorTest`, `EmployeeStoreImplTest` | partially covered | base command paths exist, but `ADD` validation depth is still limited |
+| Output formatting | `ResultStringFormatter`, `CommandExecutor` | `CommandExecutorTest` | partially covered | count/`NONE`/max-5 behavior is covered indirectly; direct formatter tests are missing |
+| Modify behavior | `ModCommand`, `EmployeeStoreImpl.modify()` | `EmployeeStoreImplModifyCommandTest`, `CommandModTest` | partially covered | pre-change behavior exists at store level; command-level output gaps remain |
+| Name options | `SecondaryOptionEnum`, `CommandFactory`, `Name` | `EmployeeStoreImplNameTest` | covered | first/last name search and comparison are already exercised |
+| Birthday options | `SecondaryOptionEnum`, `CommandFactory`, `Birthday` | `EmployeeStoreImplBirthdayTest` | partially covered | year comparisons exist; month/day integration coverage is weaker |
+| Career level and certi comparisons | `CareerLevel`, `Certi`, `TertiaryOptionEnum` | `EmployeeStoreImplCareerLevelTest`, `CertiTest` | partially covered | field comparison exists; command-level certi search coverage can be improved |
+| Employee number ordering/comparison | `EmployeeNumber`, `ResultStringFormatter` | `EmployeeNumberTest`, `CommandExecutorTest` | partially covered | ordering semantics exist, but direct century-boundary formatter regression is missing |
+| AND/OR composition | `CombinationEnum`, command classes, `EmployeeStoreImpl` | `AndOrParameterTest`, `CommandParserTest`, birthday/name integration cases | partially covered | active `-o` duplicate regression tests are still needed |
+| Phone partial-field handling | `PhoneNumber`, `SecondaryOptionEnum`, `CommandFactory` | `PhoneNumberTest` | partially covered | field unit tests exist, but parser -> command -> store integration tests are thin |
+| Scale requirement | `EmployeeStoreImpl`, full command path | none dedicated | not covered | 100,000-record acceptance is documented but not validated by an active test |
+
+## 5. Coverage View by Feature Group
 ### Base Requirement Coverage
 - command execution: `B-08`, `B-21`
 - data model: `B-02` to `B-07`
@@ -75,7 +94,7 @@ This document connects source requirements to PRD sections and implementation/te
 - comparison search: `F-15` to `F-17`
 - logical composition: `F-18` to `F-23`
 
-## 5. Suggested Test Mapping
+## 6. Suggested Test Mapping
 ### Unit-Level Focus
 - field parsing and validation
 - option parsing by position
@@ -93,7 +112,7 @@ This document connects source requirements to PRD sections and implementation/te
 - 100,000 record insertion
 - search/delete/modify after large data load
 
-## 6. Review Checklist
+## 7. Review Checklist
 - Every source requirement has a `Req ID`.
 - Every `Req ID` is mapped to a PRD section.
 - Every high-risk rule has a test focus note.

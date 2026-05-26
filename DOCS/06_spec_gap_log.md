@@ -10,37 +10,40 @@
   - `DOCS/02_requirements_traceability.md`
 - Related downstream stage:
   - `RED`
+- Source-guided references:
+  - `src/main/java/com/sec/bestreviewer/EmployeeManagement.java`
+  - `src/main/java/com/sec/bestreviewer/CommandFactory.java`
+  - `src/main/java/com/sec/bestreviewer/util/ResultStringFormatter.java`
 
 ## 2. Purpose
 This document records the requirement ambiguities, contract conflicts, and architecture-sensitive decisions that must be locked before `RED` starts.
 
-The goal is not to guess the answer, but to make unresolved interpretation points explicit so that failing tests in `RED` do not encode the wrong contract.
+The goal is not to guess the answer, but to separate still-open contract gaps from decisions that the current source tree has already made.
 
 ## 3. Gap Log
-| Gap ID | Area | Current gap or conflict | Why it blocks RED | Required decision |
+| Gap ID | Status | Area | Current source-grounded state | Why it matters in RED |
 | --- | --- | --- | --- | --- |
-| G-01 | `certi` input contract | `Further.md` adds `certi` to the final data model and printed output, but the base `ADD` command format is not updated to include a `certi` input value. Current code already expects 6 employee data fields. | Failing tests cannot decide whether `ADD` should accept 5 or 6 employee data values. | Lock one rule: extend `ADD` format, define default `certi`, or stage `certi` separately until `NEW_FEATURE`. |
-| G-02 | Invalid command behavior | Source docs require strict format, but they do not define the external behavior for malformed commands, missing tokens, unknown fields, or invalid option positions. | Parser and end-to-end failure tests need an observable output contract. | Decide whether invalid lines print an error message, print `NONE`, are ignored, or terminate execution. |
-| G-03 | Invalid option-field combinations | Docs define valid combinations such as `name + -f/-l`, `phoneNum + -m/-l`, `birthday + -y/-m/-d`, but do not define behavior for invalid combinations. Current implementation may silently fall back to full-field behavior. | RED needs to know whether to reject or tolerate invalid combinations. | Decide whether invalid combinations must be rejected explicitly or treated as invalid input. |
-| G-04 | `MOD employeeNum` rejection contract | Docs say `employeeNum` cannot be modified, but do not define the exact external behavior. | `MOD` failure tests need to know whether this is an exception, `MOD,NONE`, count `0`, or ignored mutation. | Lock the externally visible rule for forbidden modification attempts. |
-| G-05 | `employeeNum` ordering boundary | Sorting rules explain join-year priority, but the boundary behavior across `90`~`99` and `00`~`19` needs explicit testable wording. | Formatter tests must encode the same year interpretation across all commands. | Define canonical ordering examples that cover 1990s vs 2000s and tie-break behavior inside the same join year. |
-| G-06 | `OR` duplicate handling scope | Docs explicitly forbid duplicate search results for `SCH -o`, but do not state whether the same dedup rule must also apply to internal delete/modify match sets. | RED tests for `-o` need a consistent matching set definition. | Clarify whether deduplication is only an output rule for `SCH` or a shared matching rule for `DEL`/`MOD` as well. |
-| G-07 | Comparison ordering for enumerated fields | `cl` and `certi` examples imply ordered comparison semantics, but the total order is not normalized in one source of truth. | Comparison tests need one stable ordering contract. | Confirm `cl: CL1 < CL2 < CL3 < CL4` and `certi: ADV < PRO < EX` as explicit comparison orders. |
-| G-08 | 100,000-record acceptance definition | Docs require 100,000-record support, but do not define measurable acceptance criteria beyond “must work.” | RED/QA cannot turn scale requirements into executable acceptance checks. | Define minimum scale test shape: insert volume, required operations, and expected observable outcome. |
+| G-01 | resolved in code, stale in docs | `certi` input contract | `CommandFactory` already builds `ADD` with `employeeNum,name,cl,phoneNum,birthday,certi`. | RED should test the implemented `ADD` shape, and docs must stop treating it as undecided. |
+| G-02 | partially resolved | Invalid command behavior | `EmployeeManagement` writes `wrong command : <line>` for `IllegalArgumentException` paths, but malformed cases outside that path are still not fully normalized. | RED can assert current invalid-command output where the CLI already defines it. |
+| G-03 | open | Invalid option-field combinations | Requirements define valid pairings, but dedicated tests and explicit docs for invalid pairings are still missing. | RED should add focused negative tests instead of guessing fallback behavior. |
+| G-04 | resolved in current CLI path | `MOD employeeNum` rejection contract | Current `MOD employeeNum` attempts are treated as invalid command flows in the CLI path. | RED should document and test the current externally visible behavior. |
+| G-05 | open | `employeeNum` ordering boundary | Join-year ordering exists in code and tests, but a direct formatter regression test for 1990s vs 2000s boundaries is still missing. | RED needs a stable assertion around century-boundary ordering. |
+| G-06 | resolved in implementation shape | `OR` duplicate handling scope | Current matching behavior uses one deduplicated match set, so duplicates are not emitted or processed more than once. | RED should still add a regression test to lock this behavior. |
+| G-07 | resolved in source, thinly documented | Comparison ordering for enumerated fields | `cl` and `certi` ordering are already implemented in field comparison logic and field tests. | Docs should reflect the current source ordering instead of treating it as undecided. |
+| G-08 | open | 100,000-record acceptance definition | Scale support is a requirement, but no dedicated active test currently validates it. | RED and QA still need a measurable large-volume acceptance scenario. |
 
 ## 4. Recommended Resolution Order
-1. Resolve `G-01` because `certi` affects command syntax, field validation, output format, and test fixtures.
-2. Resolve `G-02`, `G-03`, and `G-04` because they directly control negative test expectations.
-3. Resolve `G-05`, `G-06`, and `G-07` because they affect deterministic result assertions.
-4. Resolve `G-08` before `QA` so scale requirements are testable and reviewable.
+1. Lock the remaining negative-contract behavior around `G-02` and `G-03`.
+2. Add regression tests for `G-05` and `G-06` so currently implemented behavior is preserved.
+3. Define a measurable acceptance strategy for `G-08` before `QA`.
 
 ## 5. Suggested RED Guardrails
-- Do not write failing tests that guess the `certi` input shape.
-- Keep malformed-input tests pending until invalid-command output is explicitly decided.
+- Use the current `ADD,...,birthday,certi` source shape in failing tests.
+- Keep malformed-input tests focused on the currently implemented `IllegalArgumentException` output path unless the team expands the contract.
 - Prefer contract tests at command/output level for sorting, `NONE`, max-5, and pre-change `MOD` output.
 - Record every deferred ambiguity in the RED PR description so unowned gaps do not disappear.
 
 ## 6. Exit Criteria
-- Every high-risk ambiguity has an explicit team decision or an agreed temporary rule.
+- Every still-open ambiguity has an explicit team decision or an agreed temporary rule.
 - The team can write `RED` tests without inventing hidden behavior.
 - Base and Further requirements can be mapped to one unambiguous external contract.

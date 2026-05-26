@@ -7,6 +7,9 @@
   - `DOCS/00_PRD.md`
   - `requirement/Base.md`
   - `requirement/Further.md`
+- Source-guided implementation references:
+  - `src/main/java/com/sec/bestreviewer`
+  - `src/test/java/com/sec/bestreviewer`
 
 ## 2. Product Goal Summary
 The product must provide a file-driven employee database management CLI that supports reliable add, search, delete, and modify operations with deterministic output, scalable processing, and extended option-based filtering.
@@ -35,6 +38,7 @@ Without a stable command-processing flow, none of the business commands can be e
 - Program reads the input file and writes the output file.
 - Command execution order matches input order.
 - Invalid command structures can be isolated and tested.
+- In the current CLI implementation, `IllegalArgumentException`-based invalid lines are emitted as `wrong command : <line>`.
 
 
 ## Epic 2. Employee Record Management
@@ -113,6 +117,7 @@ The extended requirement turns the system from simple storage/search into a full
 - `employeeNum` cannot be modified.
 - Printed `MOD` output reflects the pre-change state.
 - Printed final record shape supports `certi`.
+- Current source already requires `certi` in the `ADD` construction path.
 
 
 ## Epic 5. Advanced Querying and Condition Composition
@@ -137,7 +142,7 @@ This epic expands the product from exact-match CRUD into a more expressive emplo
 ### Acceptance Signals
 - Option positions are interpreted correctly.
 - Comparison search works only for `SCH`.
-- Duplicate records are not emitted in `OR` search results.
+- Duplicate records are not emitted in `OR`-based match sets.
 - Partial-field semantics follow requirement examples exactly.
 
 
@@ -164,7 +169,12 @@ The requirement explicitly expects 100,000-record handling and strongly implies 
 - The same input always produces the same output.
 - Functional behavior can be verified through unit and integration tests.
 
-## 4. Suggested Delivery Order
+## 4. Current Source Snapshot
+- Core runtime path is `EmployeeManagement -> CommandReader -> CommandParser -> CommandFactory -> CommandExecutor -> EmployeeStoreImpl -> ResultStringFormatter`.
+- Current automated tests are strongest in field parsing/comparison, store-level modify behavior, and command output formatting.
+- Active gaps in the current test tree are malformed-command output assertions, phone partial-field integration coverage, direct formatter regression tests, active end-to-end approval coverage, and 100,000-record validation.
+
+## 5. Suggested Delivery Order
 1. Epic 1: Core Command Processing
 2. Epic 2: Employee Record Management
 3. Epic 3: Output Rules and Result Formatting
@@ -172,7 +182,7 @@ The requirement explicitly expects 100,000-record handling and strongly implies 
 5. Epic 5: Advanced Querying and Condition Composition
 6. Epic 6: Scalability, Reliability, and Testability
 
-## 5. Branch Mapping Suggestion
+## 6. Branch Mapping Suggestion
 - `SPEC`: Epic definitions, scope clarification, story breakdown
 - `RED`: failing tests by epic and story
 - `GREEN`: base epics implementation
