@@ -87,6 +87,12 @@ This structure supports:
 - [`04_todo.md`](./04_todo.md)
   - Execution-ready team todo plan aligned to README schedule, evaluation criteria, and branch flow.
 
+- [`06_spec_gap_log.md`](./06_spec_gap_log.md)
+  - SPEC-stage ambiguity and contract gap log that must be resolved before RED writes failing tests.
+
+- [`07_red_test_inventory.md`](./07_red_test_inventory.md)
+  - Priority-based RED test backlog with branch ownership and suggested target test files.
+
 ## 6. Recommended Reading Order
 For a new team member:
 
@@ -95,6 +101,8 @@ For a new team member:
 3. Read [`02_requirements_traceability.md`](./02_requirements_traceability.md) to see how source requirements map into implementation.
 4. Read [`03_gherkin.md`](./03_gherkin.md) to understand executable business scenarios.
 5. Read [`04_todo.md`](./04_todo.md) to understand actual team execution order and branch responsibilities.
+6. Read [`06_spec_gap_log.md`](./06_spec_gap_log.md) to confirm unresolved contracts before RED.
+7. Read [`07_red_test_inventory.md`](./07_red_test_inventory.md) to assign RED ownership and test order.
 
 ## 7. How to Use These Documents by Stage
 ### SPEC
@@ -102,23 +110,29 @@ Use:
 - `00_PRD.md`
 - `01_epic.md`
 - `02_requirements_traceability.md`
+- `06_spec_gap_log.md`
+- `07_red_test_inventory.md`
 
 Purpose:
 - lock requirement interpretation,
 - define scope,
 - split work safely,
-- remove ambiguity before tests and code changes.
+- remove ambiguity before tests and code changes,
+- prepare RED test ownership and priority.
 
 ### RED
 Use:
 - `02_requirements_traceability.md`
 - `03_gherkin.md`
 - `04_todo.md`
+- `06_spec_gap_log.md`
+- `07_red_test_inventory.md`
 
 Purpose:
 - derive failing tests from requirements,
 - define coverage targets,
-- split testing work across branches.
+- split testing work across branches,
+- avoid encoding unresolved SPEC ambiguities into tests.
 
 ### GREEN
 Use:
