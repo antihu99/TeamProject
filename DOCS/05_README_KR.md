@@ -159,6 +159,12 @@
 - [`09_red_test_plan_KR.md`](./09_red_test_plan_KR.md)
   - RED 단계의 실행 순서, 테스트 파일 계획, 브랜치 분담, 산출물 기준을 담은 테스트 계획서
 
+- [`10_green_implementation_report_KR.md`](./10_green_implementation_report_KR.md)
+  - GREEN 단계에서 어떤 최소 구현 수정이 이루어졌는지, 무엇을 검증했는지 정리한 구현 보고서
+
+- [`11_refactoring_plan_KR.md`](./11_refactoring_plan_KR.md)
+  - REFACTORING 단계의 구조 문제, 우선순위, 파일별 개선 계획, 분담안, 테스트 유지 전략을 정리한 계획서
+
 ## 8. 권장 읽기 순서
 새 팀원이 들어왔을 때 권장 읽기 순서는 다음과 같다.
 
@@ -171,6 +177,8 @@
 7. [`07_red_test_inventory_KR.md`](./07_red_test_inventory_KR.md)로 RED 테스트 소유권과 순서를 정한다.
 8. [`08_red_test_strategy_KR.md`](./08_red_test_strategy_KR.md)로 현재 테스트 트리와 RED 우선순위를 이해한다.
 9. [`09_red_test_plan_KR.md`](./09_red_test_plan_KR.md)로 실제 작성 순서와 산출물 계획을 확인한다.
+10. [`10_green_implementation_report_KR.md`](./10_green_implementation_report_KR.md)로 GREEN 단계의 최소 수정 범위와 검증 결과를 확인한다.
+11. [`11_refactoring_plan_KR.md`](./11_refactoring_plan_KR.md)로 REFACTORING 단계의 구조 개선 우선순위와 브랜치 분담 기준을 확인한다.
 
 ## 9. 단계별 문서 활용 방법
 ### SPEC
@@ -211,6 +219,7 @@
 - `00_PRD_KR.md`
 - `03_gherkin_KR.md`
 - `04_todo_KR.md`
+- `10_green_implementation_report_KR.md`
 
 목적:
 - 기본 요구사항 테스트를 통과시키는 최소 구현
@@ -222,6 +231,8 @@
 - `00_PRD_KR.md`
 - `01_epic_KR.md`
 - `04_todo_KR.md`
+- `10_green_implementation_report_KR.md`
+- `11_refactoring_plan_KR.md`
 
 목적:
 - 외부 계약 보존

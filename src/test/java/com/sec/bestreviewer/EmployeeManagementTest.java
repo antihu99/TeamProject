@@ -1,16 +1,13 @@
 package com.sec.bestreviewer;
 
-import org.approvaltests.Approvals;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.text.Format;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EmployeeManagementTest {
@@ -49,34 +46,36 @@ public class EmployeeManagementTest {
     }
 
     @Test
-    @Disabled
-    public void integrationTest() throws Exception {
-        final String outputFileName = "./src/test/java/com/sec/bestreviewer/integration_test_output.txt";
-        final String inputFileName = "./src/test/java/com/sec/bestreviewer/integration_test_input.txt";
-
-        String[] args = {inputFileName, outputFileName};
-        File outputFile = new File(outputFileName);
+    public void testOptions() throws Exception {
+        final String inputFileName = "./src/test/java/com/sec/bestreviewer/option_name_test_input.txt";
+        final Path outputFile = Files.createTempFile("employee-management-options", ".txt");
+        final String expected = Files.readString(
+                Path.of("./src/test/java/com/sec/bestreviewer/EmployeeManagementTest.testOptions.approved.txt"));
 
         EmployeeManagement employeeManagement = new EmployeeManagement();
 
-        employeeManagement.run(args);
+        employeeManagement.run(new String[] {inputFileName, outputFile.toString()});
 
-        Approvals.verify(outputFile);
+        assertEquals(normalizeLineSeparators(expected).stripTrailing(),
+                normalizeLineSeparators(Files.readString(outputFile)).stripTrailing());
     }
 
     @Test
-    @Disabled
-    public void testOptions() throws Exception {
-        final String outputFileName = "./src/test/java/com/sec/bestreviewer/option_name_test_output.txt";
-        final String inputFileName = "./src/test/java/com/sec/bestreviewer/option_name_test_input.txt";
+    public void malformedCommandIsWrittenToOutputFile() throws Exception {
+        final Path inputFile = Files.createTempFile("employee-management-malformed-input", ".txt");
+        final Path outputFile = Files.createTempFile("employee-management-malformed-output", ".txt");
+        final String malformedCommand = "BROKEN, , , ,name,ABC";
 
-        String[] args = {inputFileName, outputFileName};
-        File outputFile = new File(outputFileName);
+        Files.writeString(inputFile, malformedCommand);
 
         EmployeeManagement employeeManagement = new EmployeeManagement();
+        employeeManagement.run(new String[] {inputFile.toString(), outputFile.toString()});
 
-        employeeManagement.run(args);
+        assertEquals("wrong command : " + malformedCommand,
+                normalizeLineSeparators(Files.readString(outputFile)).stripTrailing());
+    }
 
-        Approvals.verify(outputFile);
+    private String normalizeLineSeparators(String text) {
+        return text.replace("\r\n", "\n");
     }
 }

@@ -1,15 +1,13 @@
 package com.sec.bestreviewer;
 
-import com.sec.bestreviewer.command.CombinationEnum;
 import com.sec.bestreviewer.command.Command;
-import org.approvaltests.Approvals;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AndOrParameterTest {
@@ -26,33 +24,35 @@ class AndOrParameterTest {
     @Test
     void DEL_매개변수_테스트() {
         String line = "DEL, ,-m, ,phoneNum,0970,-o,-y, ,birthday,1990";
-        runCommand(line);
+        assertDoesNotThrow(() -> runCommand(line));
     }
 
     @Test
     void MOD_매개변수_테스트() {
         String line = "MOD, ,-d, ,birthday,06,-o, , ,certi,PRO,birthday,19901225";
-        runCommand(line);
+        assertDoesNotThrow(() -> runCommand(line));
     }
 
     @Test
     void SCH_매개변수_테스트() {
         String line = "SCH, ,-m, ,phoneNum,0970,-o,-y, ,birthday,1990";
-        runCommand(line);
+        assertDoesNotThrow(() -> runCommand(line));
     }
 
     @Test
     public void testAndOrCommand() throws Exception {
-        final String outputFileName = "./src/test/java/com/sec/bestreviewer/and_or_command_test_output.txt";
         final String inputFileName = "./src/test/java/com/sec/bestreviewer/and_or_command_test_input.txt";
+        final Path outputFile = Files.createTempFile("and-or-command-output", ".txt");
+        final String expected = Files.readString(
+                Path.of("./src/test/java/com/sec/bestreviewer/AndOrParameterTest.testAndOrCommand.approved.txt"));
 
-        String[] args = {inputFileName, outputFileName};
-        File outputFile = new File(outputFileName);
+        new EmployeeManagement().run(new String[] {inputFileName, outputFile.toString()});
 
-        EmployeeManagement employeeManagement = new EmployeeManagement();
+        assertEquals(normalizeLineSeparators(expected).stripTrailing(),
+                normalizeLineSeparators(Files.readString(outputFile)).stripTrailing());
+    }
 
-        employeeManagement.run(args);
-
-        //Approvals.verify(outputFile);
+    private String normalizeLineSeparators(String text) {
+        return text.replace("\r\n", "\n");
     }
 }
