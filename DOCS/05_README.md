@@ -153,6 +153,9 @@ This structure supports:
 - [`07_red_test_inventory.md`](./07_red_test_inventory.md)
   - Priority-based RED test backlog with branch ownership and suggested target test files.
 
+- [`08_red_test_strategy.md`](./08_red_test_strategy.md)
+  - Current RED-stage test status, missing gaps, failing-test strategy, branch split, and priority test files.
+
 ## 8. Recommended Reading Order
 For a new team member:
 
@@ -163,6 +166,7 @@ For a new team member:
 5. Read [`04_todo.md`](./04_todo.md) to understand actual team execution order and branch responsibilities.
 6. Read [`06_spec_gap_log.md`](./06_spec_gap_log.md) to confirm unresolved contracts before RED.
 7. Read [`07_red_test_inventory.md`](./07_red_test_inventory.md) to assign RED ownership and test order.
+8. Read [`08_red_test_strategy.md`](./08_red_test_strategy.md) to understand the current test tree and RED priority sequence.
 
 ## 9. How to Use These Documents by Stage
 ### SPEC
@@ -187,12 +191,14 @@ Use:
 - `04_todo.md`
 - `06_spec_gap_log.md`
 - `07_red_test_inventory.md`
+- `08_red_test_strategy.md`
 
 Purpose:
 - derive failing tests from requirements,
 - define coverage targets,
 - split testing work across branches,
-- avoid encoding unresolved SPEC ambiguities into tests.
+- avoid encoding unresolved SPEC ambiguities into tests,
+- align RED priorities with the actual current source and test tree.
 
 ### GREEN
 Use:
