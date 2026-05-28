@@ -78,7 +78,7 @@ class CommandExecutorTest {
 
     private void deleteCommandWithPrintOption(int count) {
         final List<Employee> employeeList = getEmployees(count);
-        when(employeeStore.delete( FieldEnum.fromFieldName("name"), "ANDY KIM")).thenReturn(employeeList);
+        when(employeeStore.delete(FieldEnum.fromFieldName("name"), "ANDY KIM", 0)).thenReturn(employeeList);
 
         final List<String> options = Collections.singletonList("-p");
         final List<String> params = Arrays.asList("name", "ANDY KIM");
@@ -110,7 +110,7 @@ class CommandExecutorTest {
     void testDeleteCommandWithPrintOption_NoneResult() {
         final List<Employee> employeeList = getEmployees(0);
         String fieldName = CommandFactory.getFieldMapParam("name");
-        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "ANDY KIM")).thenReturn(employeeList);
+        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "ANDY KIM", 0)).thenReturn(employeeList);
 
         final List<String> options = Collections.singletonList("-p");
         final List<String> params = Arrays.asList("name", "ANDY KIM");
@@ -130,7 +130,7 @@ class CommandExecutorTest {
         final int deletedCount = 10;
         final List<Employee> employeeList = getEmployees(deletedCount);
         String fieldName = CommandFactory.getFieldMapParam("name");
-        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "ANDY KIM")).thenReturn(employeeList);
+        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "ANDY KIM", 0)).thenReturn(employeeList);
 
         final List<String> options = Collections.emptyList();
         final List<String> params = Arrays.asList("name", "ANDY KIM");
@@ -149,7 +149,7 @@ class CommandExecutorTest {
     void testDeleteCommandWithOutPrintOption_NoneResult() {
         final List<Employee> employeeList = getEmployees(0);
         String fieldName = CommandFactory.getFieldMapParam("name");
-        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "ANDY KIM")).thenReturn(employeeList);
+        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "ANDY KIM", 0)).thenReturn(employeeList);
 
         final List<String> options = Collections.emptyList();
         final List<String> params = Arrays.asList("name", "ANDY KIM");
@@ -174,7 +174,7 @@ class CommandExecutorTest {
     void searchCommandWithPrintOption(int count) {
         final List<Employee> employeeList = getEmployees(count);
         String fieldName = CommandFactory.getFieldMapParam("name");
-        when(employeeStore.search(FieldEnum.fromFieldName(fieldName), "ANDY KIM", TertiaryOptionEnum.NONE)).thenReturn(employeeList);
+        when(employeeStore.search(FieldEnum.fromFieldName(fieldName), "ANDY KIM", TertiaryOptionEnum.NONE, 0)).thenReturn(employeeList);
 
         final List<String> options = Collections.singletonList("-p");
         final List<String> params = Arrays.asList("name", "ANDY KIM");
@@ -197,7 +197,7 @@ class CommandExecutorTest {
     void testSearchCommandWithPrintOption_NoneResult() {
         final List<Employee> employeeList = getEmployees(0);
         String fieldName = CommandFactory.getFieldMapParam("name");
-        when(employeeStore.search(FieldEnum.fromFieldName(fieldName), "ANDY KIM", TertiaryOptionEnum.NONE)).thenReturn(employeeList);
+        when(employeeStore.search(FieldEnum.fromFieldName(fieldName), "ANDY KIM", TertiaryOptionEnum.NONE, 0)).thenReturn(employeeList);
 
         final List<String> options = Collections.singletonList("-p");
         final List<String> params = Arrays.asList("name", "ANDY KIM");
@@ -217,7 +217,7 @@ class CommandExecutorTest {
         final int deletedCount = 10;
         final List<Employee> employeeList = getEmployees(deletedCount);
         String fieldName = CommandFactory.getFieldMapParam("name");
-        when(employeeStore.search(FieldEnum.fromFieldName(fieldName), "ANDY KIM", TertiaryOptionEnum.NONE)).thenReturn(employeeList);
+        when(employeeStore.search(FieldEnum.fromFieldName(fieldName), "ANDY KIM", TertiaryOptionEnum.NONE, 0)).thenReturn(employeeList);
 
         final List<String> options = Collections.emptyList();
         final List<String> params = Arrays.asList("name", "ANDY KIM");
@@ -236,7 +236,7 @@ class CommandExecutorTest {
     void testSearchCommandWithOutPrintOption_NoneResult() {
         final List<Employee> employeeList = getEmployees(0);
         String fieldName = CommandFactory.getFieldMapParam("name");
-        when(employeeStore.search(FieldEnum.fromFieldName(fieldName), "ANDY KIM", TertiaryOptionEnum.NONE)).thenReturn(employeeList);
+        when(employeeStore.search(FieldEnum.fromFieldName(fieldName), "ANDY KIM", TertiaryOptionEnum.NONE, 0)).thenReturn(employeeList);
 
         final List<String> options = Collections.emptyList();
         final List<String> params = Arrays.asList("name", "ANDY KIM");
@@ -276,7 +276,7 @@ class CommandExecutorTest {
                 .sorted(Comparator.comparing(Employee::getEmployeeNumber).reversed())
                 .collect(Collectors.toList());
         String fieldName = CommandFactory.getFieldMapParam("name");
-        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "ANDY KIM")).thenReturn(reversedEmployeeList);
+        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "ANDY KIM", 0)).thenReturn(reversedEmployeeList);
 
         final List<String> options = Collections.singletonList("-p");
         final List<String> params = Arrays.asList("name", "ANDY KIM");
@@ -316,13 +316,13 @@ class CommandExecutorTest {
 
         List<Employee> toDelete = Arrays.asList(allEmployees.get(0), allEmployees.get(1));
         String fieldName = CommandFactory.getFieldMapParam("name");
-        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "YUJIN KIM")).thenReturn(toDelete);
+        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "YUJIN KIM", 0)).thenReturn(toDelete);
         List<String> delOptions = Arrays.asList("-p", "", "", "");
         List<String> delParams = Arrays.asList("name", "YUJIN KIM");
         Command delCommand = CommandFactory.buildSingleCommand(CommandFactory.CMD_DEL, delOptions, delParams);
         (new CommandExecutor(employeeStore)).execute(delCommand);
 
-        when(employeeStore.search(any(), anyString(),any())).thenReturn(expectedRemaining);
+        when(employeeStore.search(any(), anyString(), any(), anyInt())).thenReturn(expectedRemaining);
         Command schCommand = CommandFactory.buildSingleCommand(CommandFactory.CMD_SCH,
                 Arrays.asList("-p", "", "", ""),
                 Arrays.asList("cl", "")); // 조건은 예시
@@ -360,14 +360,14 @@ class CommandExecutorTest {
 
         List<Employee> toDelete = Arrays.asList(allEmployees.get(0), allEmployees.get(1));
         String fieldName = CommandFactory.getFieldMapParam("cl");
-        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "CL3")).thenReturn(toDelete);
+        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "CL3", 0)).thenReturn(toDelete);
 
         List<String> delOptions = Arrays.asList("-p", "", "", "");
         List<String> delParams = Arrays.asList("cl", "CL3");
         Command delCommand = CommandFactory.buildSingleCommand(CommandFactory.CMD_DEL, delOptions, delParams);
         (new CommandExecutor(employeeStore)).execute(delCommand);
 
-        when(employeeStore.search(any(), anyString(),any())).thenReturn(expectedRemaining);
+        when(employeeStore.search(any(), anyString(), any(), anyInt())).thenReturn(expectedRemaining);
 
         Command schCommand = CommandFactory.buildSingleCommand(CommandFactory.CMD_SCH,
                 Arrays.asList("-p", "", "", ""),
@@ -405,14 +405,14 @@ class CommandExecutorTest {
         );
         List<Employee> toDelete = Arrays.asList(allEmployees.get(0), allEmployees.get(1));
         String fieldName = CommandFactory.getFieldMapParam("phoneNum");
-        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "010-8888-9999")).thenReturn(toDelete);
+        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "010-8888-9999", 0)).thenReturn(toDelete);
 
         List<String> delOptions = Arrays.asList("-p", "", "", "");
         List<String> delParams = Arrays.asList("phoneNum", "010-8888-9999");
         Command delCommand = CommandFactory.buildSingleCommand(CommandFactory.CMD_DEL, delOptions, delParams);
         (new CommandExecutor(employeeStore)).execute(delCommand);
 
-        when(employeeStore.search(any(), anyString(),any())).thenReturn(expectedRemaining);
+        when(employeeStore.search(any(), anyString(), any(), anyInt())).thenReturn(expectedRemaining);
         Command schCommand = CommandFactory.buildSingleCommand(CommandFactory.CMD_SCH,
                 Arrays.asList("-p", "", "", ""),
                 Arrays.asList("cl", "")); // 조건은 예시
@@ -449,14 +449,14 @@ class CommandExecutorTest {
         );
         List<Employee> toDelete = Arrays.asList(allEmployees.get(0), allEmployees.get(1));
         String fieldName = CommandFactory.getFieldMapParam("birthday");
-        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "19981206")).thenReturn(toDelete);
+        when(employeeStore.delete(FieldEnum.fromFieldName(fieldName), "19981206", 0)).thenReturn(toDelete);
 
         List<String> delOptions = Arrays.asList("-p", "", "", "");
         List<String> delParams = Arrays.asList("birthday", "19981206");
         Command delCommand = CommandFactory.buildSingleCommand(CommandFactory.CMD_DEL, delOptions, delParams);
         (new CommandExecutor(employeeStore)).execute(delCommand);
 
-        when(employeeStore.search(any(), anyString(),any())).thenReturn(expectedRemaining);
+        when(employeeStore.search(any(), anyString(), any(), anyInt())).thenReturn(expectedRemaining);
         Command schCommand = CommandFactory.buildSingleCommand(CommandFactory.CMD_SCH,
                 Arrays.asList("-p", "", "", ""),
                 Arrays.asList("cl", "")); // 조건은 예시

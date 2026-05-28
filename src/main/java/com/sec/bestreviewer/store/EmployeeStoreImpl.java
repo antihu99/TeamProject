@@ -45,23 +45,8 @@ public class EmployeeStoreImpl implements EmployeeStore {
 
     @Override
     public List<Employee> search(FieldEnum fieldEnum, String value, TertiaryOptionEnum tertiaryOptionEnum, int subfieldIndex) {
-
-        Function<String, Field> creator = fieldCreators.get(fieldEnum);
-        Function<Employee, Field> extractor = fieldExtractors.get(fieldEnum);
-
-        if (creator == null || extractor == null) {
-            return Collections.emptyList();
-        }
-
-        Field searchField = creator.apply(value);
-        final int finalSubfieldIndex = subfieldIndex;
-
         return employees.stream()
-                .filter(employee -> {
-                    Field targetField = extractor.apply(employee);
-
-                    return targetField.compare(searchField, finalSubfieldIndex, tertiaryOptionEnum);
-                })
+                .filter(employee -> fieldMatches(employee, fieldEnum, value, subfieldIndex, tertiaryOptionEnum))
                 .collect(Collectors.toList());
     }
 
@@ -71,26 +56,52 @@ public class EmployeeStoreImpl implements EmployeeStore {
                                  FieldEnum fieldEnum2, String value2, TertiaryOptionEnum tertiaryOptionEnum2, int subfieldIndex2
                                  ) {
 
-        Field firstSearchField = fieldCreators.get(fieldEnum1).apply(value1);
-        Field secondSearchField = fieldCreators.get(fieldEnum2).apply(value2);
-
-        final int finalSubfieldIndex1 = subfieldIndex1;
-        final int finalSubfieldIndex2 = subfieldIndex2;
-
         return employees.stream()
                 .filter(employee -> {
-                    Field targetField1 = fieldExtractors.get(fieldEnum1).apply(employee);
-                    Field targetField2 = fieldExtractors.get(fieldEnum2).apply(employee);
+                    boolean firstMatch = fieldMatches(employee, fieldEnum1, value1, subfieldIndex1, tertiaryOptionEnum1);
+                    boolean secondMatch = fieldMatches(employee, fieldEnum2, value2, subfieldIndex2, tertiaryOptionEnum2);
                     if (conditionEnum.equals(CombinationEnum.OR)) {
-                        return targetField1.compare(firstSearchField, finalSubfieldIndex1, tertiaryOptionEnum1) ||
-                                targetField2.compare(secondSearchField, finalSubfieldIndex2, tertiaryOptionEnum2);
-                    } else {
-                        return targetField1.compare(firstSearchField, finalSubfieldIndex1, tertiaryOptionEnum1) &&
-                                targetField2.compare(secondSearchField, finalSubfieldIndex2, tertiaryOptionEnum2);
+                        return firstMatch || secondMatch;
                     }
-
+                    return firstMatch && secondMatch;
                 })
                 .collect(Collectors.toList());
+    }
+
+    private boolean fieldMatches(Employee employee, FieldEnum fieldEnum, String value,
+                                 int subfieldIndex, TertiaryOptionEnum tertiaryOptionEnum) {
+        if (subfieldIndex > 0 && supportsPartialMatch(fieldEnum)) {
+            return matchesPartialField(employee, fieldEnum, subfieldIndex, value, tertiaryOptionEnum);
+        }
+
+        Function<String, Field> creator = fieldCreators.get(fieldEnum);
+        Function<Employee, Field> extractor = fieldExtractors.get(fieldEnum);
+        if (creator == null || extractor == null) {
+            return false;
+        }
+
+        Field searchField = creator.apply(value);
+        return extractor.apply(employee).compare(searchField, subfieldIndex, tertiaryOptionEnum);
+    }
+
+    private static boolean supportsPartialMatch(FieldEnum fieldEnum) {
+        return FieldEnum.FIELD_NAME.equals(fieldEnum)
+                || FieldEnum.FIELD_PHONE_NUMBER.equals(fieldEnum)
+                || FieldEnum.FIELD_BIRTH_DAY.equals(fieldEnum);
+    }
+
+    private static boolean matchesPartialField(Employee employee, FieldEnum fieldEnum, int subfieldIndex,
+                                               String rawValue, TertiaryOptionEnum tertiaryOptionEnum) {
+        switch (fieldEnum) {
+            case FIELD_NAME:
+                return employee.getName().matchesSubfield(subfieldIndex, rawValue, tertiaryOptionEnum);
+            case FIELD_PHONE_NUMBER:
+                return employee.getPhoneNumber().matchesSubfield(subfieldIndex, rawValue, tertiaryOptionEnum);
+            case FIELD_BIRTH_DAY:
+                return employee.getBirthday().matchesSubfield(subfieldIndex, rawValue, tertiaryOptionEnum);
+            default:
+                return false;
+        }
     }
 
 

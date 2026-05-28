@@ -54,6 +54,20 @@ public class Birthday extends Field {
     /**
      * compare: 옵션(subfieldIndex, tertiaryOptionEnum)에 따라 부등호 비교
      */
+    public boolean matchesSubfield(int subfieldIndex, String rawValue, TertiaryOptionEnum tertiaryOptionEnum) {
+        int searchValue = Integer.parseInt(rawValue);
+        switch (subfieldIndex) {
+            case 1:
+                return compareInt(this.year, searchValue, tertiaryOptionEnum);
+            case 2:
+                return compareInt(this.month, searchValue, tertiaryOptionEnum);
+            case 3:
+                return compareInt(this.day, searchValue, tertiaryOptionEnum);
+            default:
+                throw new IllegalArgumentException("잘못된 subfieldIndex: " + subfieldIndex);
+        }
+    }
+
     @Override
     public boolean compare(Field field, int subfieldIndex, TertiaryOptionEnum tertiaryOptionEnum) {
         if (!(field instanceof Birthday)) throw new IllegalArgumentException("타입 불일치");

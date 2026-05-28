@@ -71,6 +71,16 @@ public class PhoneNumber extends Field {
         return last.equals(number);
     }
 
+    public boolean matchesSubfield(int subfieldIndex, String rawValue, TertiaryOptionEnum tertiaryOptionEnum) {
+        if (subfieldIndex == 2) {
+            return compareString(this.middle, rawValue, tertiaryOptionEnum);
+        }
+        if (subfieldIndex == 3) {
+            return compareString(this.last, rawValue, tertiaryOptionEnum);
+        }
+        throw new IllegalArgumentException("Subfield index out of bounds! index=" + subfieldIndex);
+    }
+
     public boolean compare(Field field, int subfieldIndex, TertiaryOptionEnum tertiaryOptionEnum) {
         PhoneNumber fieldPhoneNumber = (PhoneNumber) field;
         if (subfieldIndex == 2) {

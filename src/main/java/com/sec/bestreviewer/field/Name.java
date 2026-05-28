@@ -63,6 +63,17 @@ public class Name extends Field {
         }
     }
 
+    public boolean matchesSubfield(int subfieldIndex, String rawValue, TertiaryOptionEnum tertiaryOptionEnum) {
+        switch (subfieldIndex) {
+            case 1:
+                return compareString(this.first, rawValue, tertiaryOptionEnum);
+            case 2:
+                return compareString(this.second, rawValue, tertiaryOptionEnum);
+            default:
+                throw new IllegalArgumentException("Subfield index out of bounds! index=" + subfieldIndex);
+        }
+    }
+
     @Override
     public int compareTo(Field field) {
         if (this.first.equals(((Name) field).getFirst())) {
